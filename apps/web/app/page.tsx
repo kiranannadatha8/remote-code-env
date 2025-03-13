@@ -4,8 +4,12 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { MoveRight } from "lucide-react";
 import { useState } from "react";
+import axios from "axios";
+import { useAuth } from "@clerk/nextjs";
+import { BACKEND_URL } from "../config";
 
 export default function Home() {
+  const { getToken } = useAuth();
   const [showIcon, setShowIcon] = useState(false);
   const [prompt, setPrompt] = useState("");
   const starterPrompts = [
@@ -48,6 +52,22 @@ export default function Home() {
     setShowIcon(e.target.value.length > 0);
   };
 
+  const handleSubmit = async () => {
+    const token = await getToken();
+    const response = await axios.post(
+      `${BACKEND_URL}/project`,
+      {
+        prompt,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    console.log(response.data);
+  };
+
   return (
     <main className="h-full">
       <Navbar />
@@ -73,6 +93,7 @@ export default function Home() {
               <Button
                 size="icon"
                 className="bg-blue-600 hover:bg-blue-700 text-white absolute right-[17%] top-6"
+                onClick={handleSubmit}
               >
                 <MoveRight />
               </Button>

@@ -1,7 +1,7 @@
 import { prismaClient } from "db/client";
 import express from "express";
 import cors from "cors";
-import { authMiddleware } from "./middleware.js";
+import { authMiddleware } from "./middleware";
 
 const app = express();
 app.use(express.json());
@@ -27,6 +27,6 @@ app.get("/projects", authMiddleware, async (req, res) => {
   res.json(projects);
 });
 
-app.listen(3000, () => {
+app.listen(3001, () => {
   console.log("Server is running on port 3000");
 });
