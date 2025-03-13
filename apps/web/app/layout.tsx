@@ -1,9 +1,7 @@
 import "./globals.css";
 import "@repo/ui/styles.css";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-
-const inter = Inter({ subsets: ["latin"] });
+import { ClerkProvider } from "@clerk/nextjs";
 
 export const metadata: Metadata = {
   title: "Bolt - Build anything",
@@ -16,10 +14,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className="bg-gradient-to-b from-gray-900 to-black h-screen">
-        {children}
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <body className="bg-gradient-to-b from-gray-900 to-black h-screen">
+          {children}
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
